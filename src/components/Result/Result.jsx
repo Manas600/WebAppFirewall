@@ -1,6 +1,6 @@
 import s from "./style.module.css";
 
-export function Result({ isMalicious = true }) {
+export function Result({ isMalicious }) {
   const resultText = isMalicious
     ? "The input is Malicious!!!"
     : "The input is not Malicious.";
