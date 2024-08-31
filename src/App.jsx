@@ -8,20 +8,29 @@ export function App() {
   const [result, setResult] = useState(null);
 
   const checkInput = async () => {
-    //Backend call to be integrated here
-    //For now fake backend call
-    const isMalicious = await mockBackendCheck(inputText);
-    setResult(isMalicious);
-  };
+    try {
+      console.log("Sending input:", inputText);
+      const response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ input: inputText }),
+      });
 
-  const mockBackendCheck = (text) => {
-    // Simulate a delay and then return a random result for now
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const malicious = text.toLowerCase().includes("malicious");
-        resolve(malicious);
-      }, 1000);
-    });
+      const data = await response.json();
+      console.log("Received response:", data);
+
+      if (response.ok) {
+        setResult(data.result);
+      } else {
+        console.error(data.error);
+        setResult(null);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setResult(null);
+    }
   };
 
   return (
