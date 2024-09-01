@@ -1,12 +1,22 @@
 import s from "./style.module.css";
 
 export function Result({ isMalicious }) {
-  const resultText =
-    isMalicious === "malicious"
-      ? "The input is Malicious!!!"
-      : "The input is not Malicious.";
+  let resultText;
+  let resultColor;
 
-  const resultColor = isMalicious === "malicious" ? "red" : "green";
+  if (isMalicious === "malicious") {
+    resultText = "The input is Malicious!!!";
+    resultColor = "red";
+  } else if (isMalicious === "not malicious") {
+    resultText = "The input is not Malicious.";
+    resultColor = "green";
+  } else if (isMalicious === "no_input") {
+    resultText = "No input provided";
+    resultColor = "black";
+  } else {
+    resultText = "Error: Unexpected result";
+    resultColor = "black";
+  }
 
   return (
     <div className={s.container} style={{ color: resultColor }}>
